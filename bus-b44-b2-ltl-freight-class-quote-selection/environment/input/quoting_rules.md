@@ -11,7 +11,10 @@ dollars.
 - `shipments.csv` — one row per bill of lading: its pickup date, the date the consignee needs it
   by, the consignee, the bill's status in the TMS and the class the shipper wrote on the bill.
 - `handling_units.csv` — the handling units (pallets, skids, crates, drums) on each bill, as
-  keyed into the TMS, one row per unit per revision of the bill.
+  keyed into the TMS: one row per line per revision of the bill. A line covers `pieces`
+  identical units; `dimensions_in` gives one piece as length x width x height, or as diameter
+  and height for a drum; `weight_lb` is the whole line's weight; `handling_note` is the
+  shipper's free-text note on the line and applies to every piece on it.
 - `consignees.csv` — each consignee's delivery zone and receiving set-up.
 - `classification_items.md` — the classification items our shippers bill under.
 - `density_classes.csv` — the density scale.
@@ -27,29 +30,28 @@ A shipment is one bill of lading (`shipment_id`). Only bills whose `status` is `
 quoted; a cancelled bill is not quoted and does not go on the quote sheet.
 
 The TMS keeps every revision of a bill. The freight on a bill is the handling units on its
-highest `bol_revision`; that revision replaces the earlier ones in full. `unit_id` is the label
-on a physical handling unit, so a unit listed more than once on the same revision is still one
-unit.
+highest `bol_revision`. `unit_id` is the label on the physical freight a line describes.
 
-`bol_class` is what the shipper declared on the bill. It is not a rating and plays no part in
-the quote.
+`bol_class` is the class the shipper declared on the bill; the class a shipment takes is the
+one section 3 gives.
 
 ## 2. Cube and density
 
 Carriers bill on the space freight takes up on the trailer, and their dimensioners measure it
 the same way every time:
 
-- Each handling unit is measured over its overall length, width and height — the smallest
-  rectangular box it fits in, standing the way it ships. A drum ships on end.
+- Each piece is measured over its overall length, width and height as it stands on the trailer
+  floor — the smallest rectangular box that takes in everything that ships with it.
 - Every dimension is taken to the next whole inch; a fraction of an inch counts as a full inch.
-- The space above a unit that must not have other freight loaded on it cannot be used for
-  anything else, so that unit is measured to the trailer roof: its height counts as 96 inches,
-  the interior height of the trailers our carriers run. The handling note on the unit says
-  whether this is so, in whatever words the shipper used.
+- The space above a piece that other freight may not be loaded onto — whether the note says it
+  must not be stacked on, or that it may only ride on top of the load — cannot be used for
+  anything else, so that piece is measured to the trailer roof: its height counts as 96 inches,
+  the interior height of the trailers our carriers run. The handling note says whether this is
+  so, in whatever words the shipper used.
 
-A unit's cube is length × width × height ÷ 1728, in cubic feet. A shipment's weight and cube are
-the totals over its handling units, and its density is its weight divided by its cube, rounded
-to two decimals. The density belongs to the shipment, not to the individual units.
+A piece's cube is length × width × height ÷ 1728, in cubic feet. A shipment's weight and cube
+are the totals over all the freight on the bill, and its density is its weight divided by its
+cube, rounded to two decimals.
 
 ## 3. The class a shipment takes
 
@@ -58,8 +60,7 @@ Every unit on a bill carries the same `nmfc_item`. Look the item up in
 
 - An item rated on the density scale takes its class from `density_classes.csv`: the shipment
   falls in the band whose `min_density_pcf` is at or below its density and whose
-  `max_density_pcf` is above it (the densest band has no upper limit). A density exactly on a
-  limit therefore falls in the denser band, which is the lower class.
+  `max_density_pcf` is above it (the densest band has no upper limit).
 - An item with a fixed class takes that class, whatever its density.
 
 ## 4. Which carriers may be quoted

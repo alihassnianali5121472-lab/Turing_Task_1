@@ -149,8 +149,8 @@ def ship(sid, pickup, deliver_by, cons, declared, status="BOOK"):
     SHIPMENTS.append((sid, pickup, deliver_by, cons, status, declared))
 
 
-def unit(sid, rev, uid, item, shape, l, w, h, d, wt, note=""):
-    UNITS.append((sid, rev, uid, item, shape, l, w, h, d, wt, note))
+def unit(sid, rev, uid, item, shape, dims, pieces, wt, note=""):
+    UNITS.append((sid, rev, uid, item, shape, dims, pieces, wt, note))
 
 
 def build_cases():
@@ -193,8 +193,8 @@ def write_inputs(out: Path):
         ["shipment_id", "pickup_date", "deliver_by", "consignee_id", "status", "bol_class"],
         [(s[0], s[1], s[2], s[3], s[4], s[5]) for s in SHIPMENTS])
     files["handling_units.csv"] = csv_text(
-        ["shipment_id", "bol_revision", "unit_id", "nmfc_item", "unit_type", "length_in",
-         "width_in", "height_in", "diameter_in", "weight_lb", "handling_note"],
+        ["shipment_id", "bol_revision", "unit_id", "nmfc_item", "unit_type", "dimensions_in",
+         "pieces", "weight_lb", "handling_note"],
         [tuple("" if v is None else v for v in u) for u in UNITS])
     files["consignees.csv"] = csv_text(
         ["consignee_id", "delivery_zone", "dock_available", "appointment_required"],
@@ -267,6 +267,9 @@ WRONG_READINGS = {
     "upper_bound_in": "a density on a band bound takes the lighter band",
     "keep_cancelled": "cancelled shipments quoted",
     "tie_routing": "equal totals broken by routing-guide order before delivery date",
+    "no_pieces": "a line's cube taken for one piece although it covers several",
+    "carton_dims": "cartons on a larger pallet cubed on the carton dimensions alone",
+    "no_overhang": "freight overhanging its skid cubed on the skid length",
     "sheet_strict": "a sheet effective on the pickup date treated as not yet in force",
 }
 
@@ -297,9 +300,8 @@ def parse_md_table(text, header_first):
     return rows
 
 
-NOSTACK_PHRASES = ("do not stack", "no stack", "don't stack", "top load only", "top-load only",
-                   "nothing on top", "no freight on top", "non-stackable", "not stackable",
-                   "no top freight")
+NOSTACK_PHRASES = ("do not stack", "no stacking", "top load only", "nothing on top",
+                   "no freight on top")
 
 
 def is_nostack(note: str, wrong) -> bool:
@@ -307,8 +309,7 @@ def is_nostack(note: str, wrong) -> bool:
     if "ignore_nostack" in wrong:
         return False
     if "stack_keyword" in wrong:
-        return "stack" in n and "stackable" not in n.replace("non-stackable", "").replace("not stackable", "")\
-            or "non-stackable" in n or "not stackable" in n
+        return "stack" in n and "max" not in n
     return any(p in n for p in NOSTACK_PHRASES)
 
 
@@ -316,24 +317,40 @@ def ceil_in(x: Fraction) -> int:
     return -((-x.numerator) // x.denominator)
 
 
-def unit_cube_in3(u, wrong) -> Fraction:
-    """Cubic inches of one handling unit as the carrier measures it."""
-    def dim(v):
-        f = Fraction(v)
-        return f if "raw_inches" in wrong else Fraction(ceil_in(f))
-    if u["unit_type"] == "DRUM":
-        d = dim(u["diameter_in"])
-        h = dim(u["height_in"])
-        if is_nostack(u["handling_note"], wrong):
-            h = Fraction(TRAILER_HEIGHT_IN)
-        if "drum_volume" in wrong:
-            import math
-            return Fraction(math.pi) * (d / 2) ** 2 * h
-        return d * d * h
-    l, w, h = dim(u["length_in"]), dim(u["width_in"]), dim(u["height_in"])
+def overall_dims(u, wrong):
+    """Overall (L, W, H) of one piece in inches, before rounding up; drums as (D, D, H)."""
+    import re
+    txt = u["dimensions_in"].lower()
+    m = re.fullmatch(r"\s*([\d.]+)\s*dia\s*x\s*([\d.]+)\s*h\s*", txt)
+    if m:
+        d, h = Fraction(m.group(1)), Fraction(m.group(2))
+        return ("drum", d, d, h)
+    l, w, h = (Fraction(x.strip()) for x in txt.split("x"))
+    note = u["handling_note"].lower()
+    m = re.search(r"on a (\d+) x (\d+) pallet with (\d+) in deck", note)
+    if m and "carton_dims" not in wrong:
+        pl, pw, deck = (Fraction(m.group(k)) for k in (1, 2, 3))
+        l, w, h = max(l, pl), max(w, pw), h + deck
+    m = re.search(r"overhang \w+ (\d+) in at (one end|each end)", note)
+    if m and "no_overhang" not in wrong:
+        l += Fraction(m.group(1)) * (2 if m.group(2) == "each end" else 1)
+    return ("box", l, w, h)
+
+
+def unit_cube_in3(u, wrong, per_piece=False) -> Fraction:
+    """Cubic inches of one handling-unit line as the carrier measures it."""
+    kind, l, w, h = overall_dims(u, wrong)
+    if "raw_inches" not in wrong:
+        l, w, h = (Fraction(ceil_in(x)) for x in (l, w, h))
     if is_nostack(u["handling_note"], wrong):
         h = Fraction(TRAILER_HEIGHT_IN)
-    return l * w * h
+    if kind == "drum" and "drum_volume" in wrong:
+        import math
+        cube = Fraction(math.pi) / 4 * l * l * h
+    else:
+        cube = l * w * h
+    n = 1 if (per_piece or "no_pieces" in wrong) else int(u["pieces"])
+    return cube * n
 
 
 def band_class(density: Decimal, bands, wrong) -> str:

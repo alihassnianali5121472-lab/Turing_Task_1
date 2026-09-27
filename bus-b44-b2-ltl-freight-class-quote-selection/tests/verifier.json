@@ -199,6 +199,38 @@
               "linehaul_usd": "341.99",
               "accessorial_usd": "125",
               "total_cost_usd": "466.99"
+            },
+            "BOL-40826": {
+              "density_pcf": "13.8",
+              "freight_class": "85",
+              "carrier_id": "C-CRS",
+              "linehaul_usd": "151.98",
+              "accessorial_usd": "0",
+              "total_cost_usd": "151.98"
+            },
+            "BOL-41318": {
+              "density_pcf": "2.91",
+              "freight_class": "250",
+              "carrier_id": "C-EXL",
+              "linehaul_usd": "330.08",
+              "accessorial_usd": "40",
+              "total_cost_usd": "370.08"
+            },
+            "BOL-40943": {
+              "density_pcf": "21.33",
+              "freight_class": "70",
+              "carrier_id": "C-ARW",
+              "linehaul_usd": "122.38",
+              "accessorial_usd": "0",
+              "total_cost_usd": "122.38"
+            },
+            "BOL-41342": {
+              "density_pcf": "20.23",
+              "freight_class": "70",
+              "carrier_id": "C-EXL",
+              "linehaul_usd": "184.74",
+              "accessorial_usd": "0",
+              "total_cost_usd": "184.74"
             }
           },
           "row_set": [
@@ -223,7 +255,11 @@
             "BOL-40912",
             "BOL-41354",
             "BOL-40680",
-            "BOL-41267"
+            "BOL-41267",
+            "BOL-40826",
+            "BOL-41318",
+            "BOL-40943",
+            "BOL-41342"
           ],
           "row_set_ordered": true,
           "columns": [
@@ -295,19 +331,19 @@
         "expected": {
           "keys": {
             "awarded_shipment_count": {
-              "value": 21,
+              "value": 25,
               "tolerance": null
             },
             "linehaul_total_usd": {
-              "value": 4564.74,
+              "value": 5353.92,
               "tolerance": 0.01
             },
             "accessorial_total_usd": {
-              "value": 815.0,
+              "value": 855.0,
               "tolerance": 0.01
             },
             "quote_total_usd": {
-              "value": 5379.74,
+              "value": 6208.92,
               "tolerance": 0.01
             }
           },
