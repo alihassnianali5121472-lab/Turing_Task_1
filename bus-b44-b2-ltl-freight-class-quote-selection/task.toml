@@ -1,0 +1,30 @@
+schema_version = "1.3"
+artifacts = ["/app/quote_selection.xlsx", "/app/results.json"]
+
+[task]
+name = "obi/bus-b44-b2-ltl-freight-class-quote-selection"
+description = "Class, price and award next week's LTL bills of lading from handling-unit records"
+authors = []
+keywords = ["harbor", "b44", "bus", "non-connector", "offline", "plan_from_constraints", "ltl", "freight-classification"]
+
+[metadata]
+source_config = "infra/task-harness/configs/shannon-200/task_bus_b44_b2_ltl_freight_class_quote_selection"
+
+[verifier]
+timeout_sec = 600.0
+collect = []
+
+[verifier.env]
+
+[agent]
+timeout_sec = 1800.0
+
+[environment]
+network_mode = "public"
+build_timeout_sec = 1200.0
+os = "linux"
+mcp_servers = []
+
+[environment.env]
+
+[solution.env]

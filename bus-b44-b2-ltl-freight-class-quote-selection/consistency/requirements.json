@@ -1,0 +1,140 @@
+{
+ "task": "task_bus_b44_b2_ltl_freight_class_quote_selection",
+ "generated_by": "to_harbor_cli.build_requirements_json",
+ "verifier_total": 6,
+ "census": {
+  "quote_selection.xlsx": {
+   "surface": "xlsx",
+   "structure_checks": 3,
+   "figure_checks": 0,
+   "cells": []
+  }
+ },
+ "scoring": {
+  "policy": "two-tier: any core failure zeroes the reward; incidental failures cost their weight share (tests/score.py)",
+  "core": 6,
+  "incidental": [],
+  "sidecar_note": "derived figures are paid once, in results.json; artifact cell pins grade PRIMARY data carried into the deliverable, and cardinality closures pay the count — neither re-pays a derived figure",
+  "all_core_declared": "every check grades analytical content, structural closure or existence — no presentation-class check exists to demote; all-or-nothing is the declared policy for this task"
+ },
+ "duplicate_payments": [],
+ "requirements": [
+  {
+   "requirement_id": "R1",
+   "ask": "Deliver the quote selection as a workbook, on the named sheet with the stated column row.",
+   "prompt_span": "The sheet's first row carries these column names, in this order: `shipment_id`, `freight_class`, `carrier_id`, `linehaul_usd`, `accessorial_usd`, `total_cost_usd`.",
+   "surface": "quote_selection.xlsx",
+   "criticality": "major",
+   "graded_by": [
+    "workbook_exists",
+    "workbook_table_single_table"
+   ],
+   "graded_by_count": 2,
+   "tolerance": {
+    "value": "pinned",
+    "numeric_rendering": "tolerant (numeric abs<=0.001 inside table_equals, grouping-normalised; leading-zero ids exact)",
+    "column_order": "free (structural addressing)",
+    "row_order": "free",
+    "extra_columns": "allowed",
+    "extra_keys": "allowed"
+   },
+   "discrimination": null
+  },
+  {
+   "requirement_id": "R2",
+   "ask": "A shipment whose commodity is on the published exception list takes the listed class rather than the class its density gives.",
+   "prompt_span": "the listed class replaces the class the density gives",
+   "surface": "quote_selection.xlsx",
+   "criticality": "critical",
+   "graded_by": [
+    "workbook_table_trap_s04"
+   ],
+   "graded_by_count": 1,
+   "tolerance": {
+    "value": "pinned",
+    "numeric_rendering": "tolerant (numeric abs<=0.001 inside table_equals, grouping-normalised; leading-zero ids exact)",
+    "column_order": "free (structural addressing)",
+    "row_order": "free",
+    "extra_columns": "allowed",
+    "extra_keys": "allowed"
+   },
+   "discrimination": null
+  },
+  {
+   "requirement_id": "R3",
+   "ask": "Every other shipment is classed off its own density, quoted only to carriers that publish the class and can meet its transit and accessorial needs, priced under the minimum-charge floor, and awarded on landed cost — or left unawarded where nothing qualifies.",
+   "prompt_span": "the landed number, accessorials included, not the linehaul alone",
+   "surface": "quote_selection.xlsx",
+   "criticality": "critical",
+   "graded_by": [
+    "workbook_table",
+    "workbook_table_single_table",
+    "workbook_table_trap_s04"
+   ],
+   "graded_by_count": 3,
+   "tolerance": {
+    "value": "pinned",
+    "numeric_rendering": "tolerant (numeric abs<=0.001 inside table_equals, grouping-normalised; leading-zero ids exact)",
+    "column_order": "free (structural addressing)",
+    "row_order": "free",
+    "extra_columns": "allowed",
+    "extra_keys": "allowed"
+   },
+   "discrimination": null
+  },
+  {
+   "requirement_id": "R4",
+   "ask": "Report the awarded population and the three cost totals in results.json, with a closed key set.",
+   "prompt_span": "A JSON object with exactly these keys and nothing else",
+   "surface": "results.json",
+   "criticality": "critical",
+   "graded_by": [
+    "results_exists",
+    "results_figures"
+   ],
+   "graded_by_count": 2,
+   "tolerance": {
+    "value": "pinned",
+    "numeric_rendering": "tolerant (numeric abs<=0.01 per key inside object_equals)",
+    "column_order": "free (structural addressing)",
+    "row_order": "free",
+    "extra_columns": "allowed",
+    "extra_keys": "forbidden (key set closed, instruction-backed)"
+   },
+   "discrimination": "Missing the commodity exception prices the botanical shipment at the density class and yields a linehaul total of 1,140.55 and a quote total of 1,440.55, not 1,216.60 and 1,516.60; treating the carrier minimum as something other than a floor yields 987.08 and 1,242.08; quoting carriers that cannot meet the transit yields 8 awarded shipments and 1,789.40; ignoring liftgate capability yields 8 and 1,536.60; ignoring appointment capability yields 8 and 1,726.60; reading a density that lands on a bound into the band above yields 1,531.60; and awarding on linehaul alone yields 335.00 in accessorials and 1,536.60 in total."
+  }
+ ],
+ "derivation": {
+  "depends_on": {
+   "awarded_shipment_count": [
+    "shipments.csv",
+    "carrier_rates.csv",
+    "carrier_services.csv",
+    "quoting_rules.md"
+   ],
+   "linehaul_total_usd": [
+    "shipments.csv",
+    "density_classes.csv",
+    "commodity_exceptions.csv",
+    "carrier_rates.csv",
+    "carrier_services.csv",
+    "quoting_rules.md"
+   ],
+   "accessorial_total_usd": [
+    "shipments.csv",
+    "carrier_services.csv",
+    "carrier_rates.csv",
+    "quoting_rules.md"
+   ],
+   "quote_total_usd": [
+    "shipments.csv",
+    "density_classes.csv",
+    "commodity_exceptions.csv",
+    "carrier_rates.csv",
+    "carrier_services.csv",
+    "quoting_rules.md"
+   ]
+  },
+  "input_sha256": "42a1ce4094187ea588eab64d377ece0bb1b4dd4db47666608322c9d1907e6763"
+ }
+}

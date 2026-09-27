@@ -1,0 +1,9 @@
+{
+  "task": "task_bus_b44_b2_ltl_freight_class_quote_selection",
+  "revision_key": "33ef5ed1d0f4c960250a0bbf6435f42a269a70230fa55d37c0866e655ce2f2b1",
+  "backend": "deterministic",
+  "min_divergence": 0.3,
+  "documents": [],
+  "verdict": "inconclusive",
+  "reason": "no prose deliverable in solution/ \u2014 this lane has nothing to paraphrase, which is not evidence that wording is safe"
+}

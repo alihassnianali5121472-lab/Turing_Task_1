@@ -1,0 +1,57 @@
+{
+  "reward": 0.0,
+  "core_failures": [
+    "workbook_exists",
+    "workbook_table_trap_s04",
+    "workbook_table",
+    "workbook_table_single_table",
+    "results_figures",
+    "results_exists"
+  ],
+  "passed": 0,
+  "total": 6,
+  "checks": [
+    {
+      "name": "workbook_exists",
+      "tag": "core",
+      "passed": false,
+      "weight": 0.1666666667,
+      "detail": "assertion failed"
+    },
+    {
+      "name": "workbook_table_trap_s04",
+      "tag": "core",
+      "passed": false,
+      "weight": 0.1666666667,
+      "detail": "required file missing: quote_selection.xlsx"
+    },
+    {
+      "name": "workbook_table",
+      "tag": "core",
+      "passed": false,
+      "weight": 0.1666666667,
+      "detail": "required file missing: quote_selection.xlsx"
+    },
+    {
+      "name": "workbook_table_single_table",
+      "tag": "core",
+      "passed": false,
+      "weight": 0.1666666667,
+      "detail": "required file missing: quote_selection.xlsx"
+    },
+    {
+      "name": "results_figures",
+      "tag": "core",
+      "passed": false,
+      "weight": 0.1666666667,
+      "detail": "required file missing: results.json"
+    },
+    {
+      "name": "results_exists",
+      "tag": "core",
+      "passed": false,
+      "weight": 0.1666666665,
+      "detail": "assertion failed"
+    }
+  ]
+}

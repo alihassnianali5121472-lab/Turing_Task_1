@@ -1,0 +1,216 @@
+============================= test session starts ==============================
+platform linux -- Python 3.12.14, pytest-8.4.1, pluggy-1.6.0
+rootdir: /tests
+plugins: json-ctrf-0.3.5
+collected 13 items
+
+../tests/test_outputs.py FFFFFFsssssss                                   [100%]
+
+=================================== FAILURES ===================================
+______________________ test_deliverable[workbook_exists] _______________________
+
+definition = VerifierDefinition(name='workbook_exists', metadata=VerifierMetadata(how_justification='Checks quote_selection.xlsx is... expected=True, deterministic=DeterministicConfig(path='$.is_file', comparison='equals', tolerance=None), rubric=None))
+
+    @pytest.mark.parametrize(
+        "definition",
+        SPEC.verifiers,
+        ids=[definition.name for definition in SPEC.verifiers],
+    )
+    def test_deliverable(definition):
+        outcome = verify_definition(
+            definition,
+            REGISTRY,
+            WEIGHTS[definition.name],
+            config=SPEC.config,
+            completion_fn=None,
+        )["result"]
+        detail = outcome.get("error") or outcome.get("reason") or "assertion failed"
+>       assert outcome["success"], f"{definition.name}: {detail}"
+E       AssertionError: workbook_exists: assertion failed
+E       assert False
+
+/tests/test_outputs.py:144: AssertionError
+__________________ test_deliverable[workbook_table_trap_s04] ___________________
+
+definition = VerifierDefinition(name='workbook_table_trap_s04', metadata=VerifierMetadata(how_justification="Reads quote_selection.... '241.8'}}}, deterministic=DeterministicConfig(path='$.rows', comparison='table_equals', tolerance=None), rubric=None))
+
+    @pytest.mark.parametrize(
+        "definition",
+        SPEC.verifiers,
+        ids=[definition.name for definition in SPEC.verifiers],
+    )
+    def test_deliverable(definition):
+        outcome = verify_definition(
+            definition,
+            REGISTRY,
+            WEIGHTS[definition.name],
+            config=SPEC.config,
+            completion_fn=None,
+        )["result"]
+        detail = outcome.get("error") or outcome.get("reason") or "assertion failed"
+>       assert outcome["success"], f"{definition.name}: {detail}"
+E       AssertionError: workbook_table_trap_s04: required file missing: quote_selection.xlsx
+E       assert False
+
+/tests/test_outputs.py:144: AssertionError
+_______________________ test_deliverable[workbook_table] _______________________
+
+definition = VerifierDefinition(name='workbook_table', metadata=VerifierMetadata(how_justification="Reads quote_selection.xlsx shee...cost_usd']}, deterministic=DeterministicConfig(path='$.rows', comparison='table_equals', tolerance=None), rubric=None))
+
+    @pytest.mark.parametrize(
+        "definition",
+        SPEC.verifiers,
+        ids=[definition.name for definition in SPEC.verifiers],
+    )
+    def test_deliverable(definition):
+        outcome = verify_definition(
+            definition,
+            REGISTRY,
+            WEIGHTS[definition.name],
+            config=SPEC.config,
+            completion_fn=None,
+        )["result"]
+        detail = outcome.get("error") or outcome.get("reason") or "assertion failed"
+>       assert outcome["success"], f"{definition.name}: {detail}"
+E       AssertionError: workbook_table: required file missing: quote_selection.xlsx
+E       assert False
+
+/tests/test_outputs.py:144: AssertionError
+________________ test_deliverable[workbook_table_single_table] _________________
+
+definition = VerifierDefinition(name='workbook_table_single_table', metadata=VerifierMetadata(how_justification="Reads quote_select...ted=0, deterministic=DeterministicConfig(path='$.rows_after_table', comparison='equals', tolerance=None), rubric=None))
+
+    @pytest.mark.parametrize(
+        "definition",
+        SPEC.verifiers,
+        ids=[definition.name for definition in SPEC.verifiers],
+    )
+    def test_deliverable(definition):
+        outcome = verify_definition(
+            definition,
+            REGISTRY,
+            WEIGHTS[definition.name],
+            config=SPEC.config,
+            completion_fn=None,
+        )["result"]
+        detail = outcome.get("error") or outcome.get("reason") or "assertion failed"
+>       assert outcome["success"], f"{definition.name}: {detail}"
+E       AssertionError: workbook_table_single_table: required file missing: quote_selection.xlsx
+E       assert False
+
+/tests/test_outputs.py:144: AssertionError
+______________________ test_deliverable[results_figures] _______________________
+
+definition = VerifierDefinition(name='results_figures', metadata=VerifierMetadata(how_justification='Reads results.json with json.r...'closed': True}, deterministic=DeterministicConfig(path='$', comparison='object_equals', tolerance=None), rubric=None))
+
+    @pytest.mark.parametrize(
+        "definition",
+        SPEC.verifiers,
+        ids=[definition.name for definition in SPEC.verifiers],
+    )
+    def test_deliverable(definition):
+        outcome = verify_definition(
+            definition,
+            REGISTRY,
+            WEIGHTS[definition.name],
+            config=SPEC.config,
+            completion_fn=None,
+        )["result"]
+        detail = outcome.get("error") or outcome.get("reason") or "assertion failed"
+>       assert outcome["success"], f"{definition.name}: {detail}"
+E       AssertionError: results_figures: required file missing: results.json
+E       assert False
+
+/tests/test_outputs.py:144: AssertionError
+_______________________ test_deliverable[results_exists] _______________________
+
+definition = VerifierDefinition(name='results_exists', metadata=VerifierMetadata(how_justification='Checks results.json is present ... expected=True, deterministic=DeterministicConfig(path='$.is_file', comparison='equals', tolerance=None), rubric=None))
+
+    @pytest.mark.parametrize(
+        "definition",
+        SPEC.verifiers,
+        ids=[definition.name for definition in SPEC.verifiers],
+    )
+    def test_deliverable(definition):
+        outcome = verify_definition(
+            definition,
+            REGISTRY,
+            WEIGHTS[definition.name],
+            config=SPEC.config,
+            completion_fn=None,
+        )["result"]
+        detail = outcome.get("error") or outcome.get("reason") or "assertion failed"
+>       assert outcome["success"], f"{definition.name}: {detail}"
+E       AssertionError: results_exists: assertion failed
+E       assert False
+
+/tests/test_outputs.py:144: AssertionError
+=========================== short test summary info ============================
+SKIPPED [1] ../tests/test_outputs.py:153: quote_selection.xlsx not present in this workspace
+SKIPPED [1] ../tests/test_outputs.py:153: results.json not present in this workspace
+SKIPPED [4] ../tests/test_outputs.py:168: no results.json in this workspace
+SKIPPED [1] ../tests/test_outputs.py:197: no results.json in this workspace
+FAILED ../tests/test_outputs.py::test_deliverable[workbook_exists] - Assertio...
+FAILED ../tests/test_outputs.py::test_deliverable[workbook_table_trap_s04] - ...
+FAILED ../tests/test_outputs.py::test_deliverable[workbook_table] - Assertion...
+FAILED ../tests/test_outputs.py::test_deliverable[workbook_table_single_table]
+FAILED ../tests/test_outputs.py::test_deliverable[results_figures] - Assertio...
+FAILED ../tests/test_outputs.py::test_deliverable[results_exists] - Assertion...
+========================= 6 failed, 7 skipped in 0.74s =========================
+{
+  "reward": 0.0,
+  "core_failures": [
+    "workbook_exists",
+    "workbook_table_trap_s04",
+    "workbook_table",
+    "workbook_table_single_table",
+    "results_figures",
+    "results_exists"
+  ],
+  "passed": 0,
+  "total": 6,
+  "checks": [
+    {
+      "name": "workbook_exists",
+      "tag": "core",
+      "passed": false,
+      "weight": 0.1666666667,
+      "detail": "assertion failed"
+    },
+    {
+      "name": "workbook_table_trap_s04",
+      "tag": "core",
+      "passed": false,
+      "weight": 0.1666666667,
+      "detail": "required file missing: quote_selection.xlsx"
+    },
+    {
+      "name": "workbook_table",
+      "tag": "core",
+      "passed": false,
+      "weight": 0.1666666667,
+      "detail": "required file missing: quote_selection.xlsx"
+    },
+    {
+      "name": "workbook_table_single_table",
+      "tag": "core",
+      "passed": false,
+      "weight": 0.1666666667,
+      "detail": "required file missing: quote_selection.xlsx"
+    },
+    {
+      "name": "results_figures",
+      "tag": "core",
+      "passed": false,
+      "weight": 0.1666666667,
+      "detail": "required file missing: results.json"
+    },
+    {
+      "name": "results_exists",
+      "tag": "core",
+      "passed": false,
+      "weight": 0.1666666665,
+      "detail": "assertion failed"
+    }
+  ]
+}

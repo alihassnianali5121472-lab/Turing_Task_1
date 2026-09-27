@@ -1,0 +1,3 @@
+I need next week's LTL loads classed and priced before I release them to the carriers. Everything came out of the TMS this morning and is in `/app/input`: the bills in `shipments.csv` with their pallets, skids, crates and drums in `handling_units.csv`, our consignee set-ups, the density scale and item list, and each carrier's rate sheets, lanes and service profile. `quoting_rules.md` in the same folder is how we class a shipment, decide which carriers can take it, price it and award it.
+
+Put the quote sheet in `/app/quote_selection.xlsx` and the headline figures in `/app/results.json`. The layout for both is in `submission_format.md`.

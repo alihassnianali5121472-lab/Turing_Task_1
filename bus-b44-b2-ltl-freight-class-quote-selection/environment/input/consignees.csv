@@ -1,0 +1,11 @@
+consignee_id,delivery_zone,dock_available,appointment_required
+CN-104,Z1,YES,NO
+CN-117,Z2,NO,NO
+CN-122,Z3,YES,YES
+CN-138,Z1,NO,YES
+CN-141,Z4,YES,NO
+CN-156,Z2,YES,YES
+CN-163,Z3,NO,NO
+CN-170,Z4,NO,YES
+CN-185,Z2,YES,NO
+CN-192,Z1,YES,NO

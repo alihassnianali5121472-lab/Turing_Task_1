@@ -1,0 +1,74 @@
+============================= test session starts ==============================
+platform linux -- Python 3.12.14, pytest-8.4.1, pluggy-1.6.0
+rootdir: /tests
+plugins: json-ctrf-0.3.5
+collected 13 items
+
+../tests/test_outputs.py .............                                   [100%]
+
+==================================== PASSES ====================================
+=========================== short test summary info ============================
+PASSED ../tests/test_outputs.py::test_deliverable[workbook_exists]
+PASSED ../tests/test_outputs.py::test_deliverable[workbook_table_trap_s04]
+PASSED ../tests/test_outputs.py::test_deliverable[workbook_table]
+PASSED ../tests/test_outputs.py::test_deliverable[workbook_table_single_table]
+PASSED ../tests/test_outputs.py::test_deliverable[results_figures]
+PASSED ../tests/test_outputs.py::test_deliverable[results_exists]
+PASSED ../tests/test_outputs.py::test_incomplete_output[quote_selection.xlsx]
+PASSED ../tests/test_outputs.py::test_incomplete_output[results.json]
+PASSED ../tests/test_outputs.py::test_negative_corrupted_value[accessorial_total_usd]
+PASSED ../tests/test_outputs.py::test_negative_corrupted_value[awarded_shipment_count]
+PASSED ../tests/test_outputs.py::test_negative_corrupted_value[linehaul_total_usd]
+PASSED ../tests/test_outputs.py::test_negative_corrupted_value[quote_total_usd]
+PASSED ../tests/test_outputs.py::test_adversarial_extra_key
+============================== 13 passed in 0.80s ==============================
+{
+  "reward": 1.0,
+  "core_failures": [],
+  "passed": 6,
+  "total": 6,
+  "checks": [
+    {
+      "name": "workbook_exists",
+      "tag": "core",
+      "passed": true,
+      "weight": 0.1666666667,
+      "detail": ""
+    },
+    {
+      "name": "workbook_table_trap_s04",
+      "tag": "core",
+      "passed": true,
+      "weight": 0.1666666667,
+      "detail": ""
+    },
+    {
+      "name": "workbook_table",
+      "tag": "core",
+      "passed": true,
+      "weight": 0.1666666667,
+      "detail": ""
+    },
+    {
+      "name": "workbook_table_single_table",
+      "tag": "core",
+      "passed": true,
+      "weight": 0.1666666667,
+      "detail": ""
+    },
+    {
+      "name": "results_figures",
+      "tag": "core",
+      "passed": true,
+      "weight": 0.1666666667,
+      "detail": ""
+    },
+    {
+      "name": "results_exists",
+      "tag": "core",
+      "passed": true,
+      "weight": 0.1666666665,
+      "detail": ""
+    }
+  ]
+}

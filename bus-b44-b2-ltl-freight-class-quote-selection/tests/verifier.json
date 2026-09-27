@@ -1,0 +1,323 @@
+{
+  "task_id": "bus-b44_b2-ltl-freight-class-quote-selection",
+  "verifiers": [
+    {
+      "name": "quote_sheet_rows",
+      "metadata": {
+        "tag": "core",
+        "how_justification": "Reads quote_selection.xlsx sheet 'Quotes' with xlsx.read_rows and applies table_equals keyed on shipment_id: every graded cell of every quoted shipment (numbers compared numerically within 0.006, text case- and whitespace-insensitive), the row population locked to the quoted shipments as a multiset (a missing, extra or duplicated row fails), the delivered order equal to shipments.csv order, and the column set closed to the stated header.",
+        "why_justification": "Entailed by submission_format.md: a worksheet named `Quotes` with the header `shipment_id, density_pcf, freight_class, carrier_id, linehaul_usd, accessorial_usd, total_cost_usd` in that order, one row for every shipment being quoted and no others, in the order shipments.csv lists them; and by quoting_rules.md sections 1-6, which fix each shipment's density, class, awarded carrier (or NONE) and the three money columns."
+      },
+      "source": {
+        "type": "file",
+        "file": {
+          "type": "xlsx",
+          "command": "read_rows",
+          "arguments": {
+            "path": "quote_selection.xlsx",
+            "sheet": "Quotes"
+          }
+        }
+      },
+      "assertion": {
+        "type": "deterministic",
+        "expected": {
+          "id_column": "shipment_id",
+          "rows": {
+            "BOL-40817": {
+              "density_pcf": "9.1",
+              "freight_class": "100",
+              "carrier_id": "C-CRS",
+              "linehaul_usd": "210.8",
+              "accessorial_usd": "0",
+              "total_cost_usd": "210.8"
+            },
+            "BOL-40952": {
+              "density_pcf": "13.07",
+              "freight_class": "85",
+              "carrier_id": "C-CRS",
+              "linehaul_usd": "132",
+              "accessorial_usd": "0",
+              "total_cost_usd": "132"
+            },
+            "BOL-41306": {
+              "density_pcf": "44.57",
+              "freight_class": "55",
+              "carrier_id": "C-CRS",
+              "linehaul_usd": "156.02",
+              "accessorial_usd": "75",
+              "total_cost_usd": "231.02"
+            },
+            "BOL-40633": {
+              "density_pcf": "2.81",
+              "freight_class": "250",
+              "carrier_id": "C-EXL",
+              "linehaul_usd": "319.44",
+              "accessorial_usd": "40",
+              "total_cost_usd": "359.44"
+            },
+            "BOL-41178": {
+              "density_pcf": "2.17",
+              "freight_class": "250",
+              "carrier_id": "C-BLT",
+              "linehaul_usd": "171.82",
+              "accessorial_usd": "0",
+              "total_cost_usd": "171.82"
+            },
+            "BOL-40721": {
+              "density_pcf": "8.67",
+              "freight_class": "100",
+              "carrier_id": "C-EXL",
+              "linehaul_usd": "387.75",
+              "accessorial_usd": "40",
+              "total_cost_usd": "427.75"
+            },
+            "BOL-41022": {
+              "density_pcf": "14.71",
+              "freight_class": "85",
+              "carrier_id": "C-EXL",
+              "linehaul_usd": "164.29",
+              "accessorial_usd": "0",
+              "total_cost_usd": "164.29"
+            },
+            "BOL-40588": {
+              "density_pcf": "21.75",
+              "freight_class": "70",
+              "carrier_id": "C-CRS",
+              "linehaul_usd": "132",
+              "accessorial_usd": "75",
+              "total_cost_usd": "207"
+            },
+            "BOL-41290": {
+              "density_pcf": "14.77",
+              "freight_class": "85",
+              "carrier_id": "C-EXL",
+              "linehaul_usd": "260.94",
+              "accessorial_usd": "0",
+              "total_cost_usd": "260.94"
+            },
+            "BOL-40864": {
+              "density_pcf": "5.16",
+              "freight_class": "175",
+              "carrier_id": "C-EXL",
+              "linehaul_usd": "226.25",
+              "accessorial_usd": "125",
+              "total_cost_usd": "351.25"
+            },
+            "BOL-41145": {
+              "density_pcf": "20.71",
+              "freight_class": "70",
+              "carrier_id": "C-EXL",
+              "linehaul_usd": "344.42",
+              "accessorial_usd": "0",
+              "total_cost_usd": "344.42"
+            },
+            "BOL-40779": {
+              "density_pcf": "15",
+              "freight_class": "70",
+              "carrier_id": "C-ARW",
+              "linehaul_usd": "131.12",
+              "accessorial_usd": "0",
+              "total_cost_usd": "131.12"
+            },
+            "BOL-41233": {
+              "density_pcf": "6",
+              "freight_class": "125",
+              "carrier_id": "C-EXL",
+              "linehaul_usd": "143.45",
+              "accessorial_usd": "40",
+              "total_cost_usd": "183.45"
+            },
+            "BOL-40996": {
+              "density_pcf": "12.5",
+              "freight_class": "100",
+              "carrier_id": "C-CRS",
+              "linehaul_usd": "132",
+              "accessorial_usd": "75",
+              "total_cost_usd": "207"
+            },
+            "BOL-41061": {
+              "density_pcf": "13",
+              "freight_class": "125",
+              "carrier_id": "C-EXL",
+              "linehaul_usd": "257.95",
+              "accessorial_usd": "0",
+              "total_cost_usd": "257.95"
+            },
+            "BOL-41187": {
+              "density_pcf": "23.06",
+              "freight_class": "65",
+              "carrier_id": "C-BLT",
+              "linehaul_usd": "127.78",
+              "accessorial_usd": "0",
+              "total_cost_usd": "127.78"
+            },
+            "BOL-41199": {
+              "density_pcf": "2.65",
+              "freight_class": "150",
+              "carrier_id": "NONE",
+              "linehaul_usd": "0",
+              "accessorial_usd": "0",
+              "total_cost_usd": "0"
+            },
+            "BOL-40701": {
+              "density_pcf": "15.75",
+              "freight_class": "70",
+              "carrier_id": "C-EXL",
+              "linehaul_usd": "151.31",
+              "accessorial_usd": "0",
+              "total_cost_usd": "151.31"
+            },
+            "BOL-40912": {
+              "density_pcf": "9.75",
+              "freight_class": "100",
+              "carrier_id": "C-DLT",
+              "linehaul_usd": "118",
+              "accessorial_usd": "0",
+              "total_cost_usd": "118"
+            },
+            "BOL-41354": {
+              "density_pcf": "9.41",
+              "freight_class": "100",
+              "carrier_id": "C-EXL",
+              "linehaul_usd": "323.89",
+              "accessorial_usd": "125",
+              "total_cost_usd": "448.89"
+            },
+            "BOL-40680": {
+              "density_pcf": "55.5",
+              "freight_class": "50",
+              "carrier_id": "C-ARW",
+              "linehaul_usd": "331.52",
+              "accessorial_usd": "95",
+              "total_cost_usd": "426.52"
+            },
+            "BOL-41267": {
+              "density_pcf": "4.85",
+              "freight_class": "175",
+              "carrier_id": "C-EXL",
+              "linehaul_usd": "341.99",
+              "accessorial_usd": "125",
+              "total_cost_usd": "466.99"
+            }
+          },
+          "row_set": [
+            "BOL-40817",
+            "BOL-40952",
+            "BOL-41306",
+            "BOL-40633",
+            "BOL-41178",
+            "BOL-40721",
+            "BOL-41022",
+            "BOL-40588",
+            "BOL-41290",
+            "BOL-40864",
+            "BOL-41145",
+            "BOL-40779",
+            "BOL-41233",
+            "BOL-40996",
+            "BOL-41061",
+            "BOL-41187",
+            "BOL-41199",
+            "BOL-40701",
+            "BOL-40912",
+            "BOL-41354",
+            "BOL-40680",
+            "BOL-41267"
+          ],
+          "row_set_ordered": true,
+          "columns": [
+            "shipment_id",
+            "density_pcf",
+            "freight_class",
+            "carrier_id",
+            "linehaul_usd",
+            "accessorial_usd",
+            "total_cost_usd"
+          ],
+          "cell_types": {
+            "carrier_id": "text"
+          },
+          "numeric_tolerance": 0.006
+        },
+        "deterministic": {
+          "path": "$.rows",
+          "comparison": "table_equals"
+        }
+      }
+    },
+    {
+      "name": "quote_sheet_single_table",
+      "metadata": {
+        "tag": "core",
+        "how_justification": "Reads quote_selection.xlsx sheet 'Quotes' with xlsx.read_rows and requires rows_after_table == 0: no second table-shaped block (two or more populated cells in the table's columns) under the quote table.",
+        "why_justification": "Entailed by submission_format.md: one row for every shipment being quoted 'and nothing else on the sheet under the table'. Without it a second, alternative table below the first could hedge the award."
+      },
+      "source": {
+        "type": "file",
+        "file": {
+          "type": "xlsx",
+          "command": "read_rows",
+          "arguments": {
+            "path": "quote_selection.xlsx",
+            "sheet": "Quotes"
+          }
+        }
+      },
+      "assertion": {
+        "type": "deterministic",
+        "expected": 0,
+        "deterministic": {
+          "path": "$.rows_after_table",
+          "comparison": "equals"
+        }
+      }
+    },
+    {
+      "name": "results_figures",
+      "metadata": {
+        "tag": "core",
+        "how_justification": "Reads results.json with json.read_file and applies object_equals over the four keys with the key set closed: the count exactly, the three dollar totals within 0.01.",
+        "why_justification": "Entailed by submission_format.md (a JSON object with exactly these four numeric keys) and quoting_rules.md section 7, which defines the count of awarded shipments and the three totals over the awarded shipments."
+      },
+      "source": {
+        "type": "file",
+        "file": {
+          "type": "json",
+          "command": "read_file",
+          "arguments": {
+            "path": "results.json"
+          }
+        }
+      },
+      "assertion": {
+        "type": "deterministic",
+        "expected": {
+          "keys": {
+            "awarded_shipment_count": {
+              "value": 21,
+              "tolerance": null
+            },
+            "linehaul_total_usd": {
+              "value": 4564.74,
+              "tolerance": 0.01
+            },
+            "accessorial_total_usd": {
+              "value": 815.0,
+              "tolerance": 0.01
+            },
+            "quote_total_usd": {
+              "value": 5379.74,
+              "tolerance": 0.01
+            }
+          },
+          "closed": true
+        },
+        "deterministic": {
+          "path": "$",
+          "comparison": "object_equals"
+        }
+      }
+    }
+  ]
+}

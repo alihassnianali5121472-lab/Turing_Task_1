@@ -1,0 +1,70 @@
+{
+    "results": {
+        "tool": {
+            "name": "pytest",
+            "version": "8.4.1"
+        },
+        "summary": {
+            "tests": 4,
+            "passed": 0,
+            "failed": 1,
+            "skipped": 3,
+            "pending": 0,
+            "other": 0,
+            "start": 1790072347.6101227,
+            "stop": 1790072348.3423045
+        },
+        "tests": [
+            {
+                "name": "test_outputs.py::test_deliverable",
+                "status": "failed",
+                "raw_status": "call_failed",
+                "duration": 0.018894924999926843,
+                "start": 1790072347.9654694,
+                "stop": 1790072348.001133,
+                "retries": 5,
+                "file_path": "test_outputs.py",
+                "tags": [
+                    "parametrize::definition::[VerifierDefinition(name='workbook_exists', metadata=VerifierMetadata(how_justification='Checks quote_selection.xlsx is present as a file in the workspace.', why_justification='The per-shipment quote sheet is delivered.', tag='core', weight=None), source=Source(type='file', file=FileCommand(type='filesystem', command='check_path_exists', arguments={'path': 'quote_selection.xlsx'}), response=None), assertion=Assertion(type='deterministic', expected=True, deterministic=DeterministicConfig(path='$.is_file', comparison='equals', tolerance=None), rubric=None)), VerifierDefinition(name='workbook_table_trap_s04', metadata=VerifierMetadata(how_justification=\"Reads quote_selection.xlsx sheet 'Quotes' with xlsx.read_rows and applies table_equals to every graded cell of the S-04 row (matched by 'shipment_id'); a failure names the exact cell.\", why_justification='Every shipment\\'s class, awarded carrier and three cost columns are graded, and the row population is locked to the shipments file. The four figures constrain the totals but never the award: without cell-wise grading two shipments could trade carriers without moving a graded figure. Entailed by: \"One row per shipment, on a sheet named `Quotes`, in the order `input/shipments.csv` lists them. `freight_class` is the class the shipment takes; `carrier_id` is the awarded carrier, or `NONE` where no carrier qualifies; the three money columns are rounded to two decimals and are `0` on an unawarded shipment.\"', tag='core', weight=None), source=Source(type='file', file=FileCommand(type='xlsx', command='read_rows', arguments={'path': 'quote_selection.xlsx', 'sheet': 'Quotes'}), response=None), assertion=Assertion(type='deterministic', expected={'id_column': 'shipment_id', 'rows': {'S-04': {'freight_class': '125.0', 'carrier_id': 'C-CRS', 'linehaul_usd': '241.8', 'accessorial_usd': '0.0', 'total_cost_usd': '241.8'}}}, deterministic=DeterministicConfig(path='$.rows', comparison='table_equals', tolerance=None), rubric=None)), VerifierDefinition(name='workbook_table', metadata=VerifierMetadata(how_justification=\"Reads quote_selection.xlsx sheet 'Quotes' with xlsx.read_rows and applies table_equals: every graded cell of 9 rows plus the full 10-row population as a row_set lock (duplicate-row and cross-product dumps fail the lock; a duplicated graded id is rejected outright), the delivered row order equal to the stated order, and the delivered column set closed to the stated header. A failure names the exact row and column.\", why_justification='Every shipment\\'s class, awarded carrier and three cost columns are graded, and the row population is locked to the shipments file. The four figures constrain the totals but never the award: without cell-wise grading two shipments could trade carriers without moving a graded figure. Entailed by: \"One row per shipment, on a sheet named `Quotes`, in the order `input/shipments.csv` lists them. `freight_class` is the class the shipment takes; `carrier_id` is the awarded carrier, or `NONE` where no carrier qualifies; the three money columns are rounded to two decimals and are `0` on an unawarded shipment.\"', tag='core', weight=None), source=Source(type='file', file=FileCommand(type='xlsx', command='read_rows', arguments={'path': 'quote_selection.xlsx', 'sheet': 'Quotes'}), response=None), assertion=Assertion(type='deterministic', expected={'id_column': 'shipment_id', 'rows': {'S-01': {'freight_class': '60.0', 'carrier_id': 'C-ARW', 'linehaul_usd': '177.6', 'accessorial_usd': '0.0', 'total_cost_usd': '177.6'}, 'S-02': {'freight_class': '70.0', 'carrier_id': 'C-DLT', 'linehaul_usd': '150.0', 'accessorial_usd': '55.0', 'total_cost_usd': '205.0'}, 'S-03': {'freight_class': '70.0', 'carrier_id': 'C-ARW', 'linehaul_usd': '165.0', 'accessorial_usd': '95.0', 'total_cost_usd': '260.0'}, 'S-05': {'freight_class': '70.0', 'carrier_id': 'C-DLT', 'linehaul_usd': '150.0', 'accessorial_usd': '0.0', 'total_cost_usd': '150.0'}, 'S-06': {'freight_class': '85.0', 'carrier_id': 'C-ARW', 'linehaul_usd': '165.0', 'accessorial_usd': '95.0', 'total_cost_usd': '260.0'}, 'S-07': {'freight_class': '125.0', 'carrier_id': 'C-DLT', 'linehaul_usd': '167.2', 'accessorial_usd': '55.0', 'total_cost_usd': '222.2'}, 'S-08': {'freight_class': '60.0', 'carrier_id': 'NONE', 'linehaul_usd': '0.0', 'accessorial_usd': '0.0', 'total_cost_usd': '0.0'}, 'S-09': {'freight_class': '175.0', 'carrier_id': 'NONE', 'linehaul_usd': '0.0', 'accessorial_usd': '0.0', 'total_cost_usd': '0.0'}, 'S-10': {'freight_class': '150.0', 'carrier_id': 'NONE', 'linehaul_usd': '0.0', 'accessorial_usd': '0.0', 'total_cost_usd': '0.0'}}, 'row_set': ['S-01', 'S-02', 'S-03', 'S-04', 'S-05', 'S-06', 'S-07', 'S-08', 'S-09', 'S-10'], 'row_set_ordered': True, 'columns': ['shipment_id', 'freight_class', 'carrier_id', 'linehaul_usd', 'accessorial_usd', 'total_cost_usd']}, deterministic=DeterministicConfig(path='$.rows', comparison='table_equals', tolerance=None), rubric=None)), VerifierDefinition(name='workbook_table_single_table', metadata=VerifierMetadata(how_justification=\"Reads quote_selection.xlsx sheet 'Quotes' with xlsx.read_rows and requires rows_after_table == 0: no table-shaped row (two or more populated cells inside the register's column block) below the register \u2014 a totals block, a second 'revised' register under a blank row or a stray data row all fail; a one-cell note below the table does not.\", why_justification='Every shipment\\'s class, awarded carrier and three cost columns are graded, and the row population is locked to the shipments file. The four figures constrain the totals but never the award: without cell-wise grading two shipments could trade carriers without moving a graded figure. Entailed by: \"One row per shipment, on a sheet named `Quotes`, in the order `input/shipments.csv` lists them. `freight_class` is the class the shipment takes; `carrier_id` is the awarded carrier, or `NONE` where no carrier qualifies; the three money columns are rounded to two decimals and are `0` on an unawarded shipment.\"', tag='core', weight=None), source=Source(type='file', file=FileCommand(type='xlsx', command='read_rows', arguments={'path': 'quote_selection.xlsx', 'sheet': 'Quotes'}), response=None), assertion=Assertion(type='deterministic', expected=0, deterministic=DeterministicConfig(path='$.rows_after_table', comparison='equals', tolerance=None), rubric=None)), VerifierDefinition(name='results_figures', metadata=VerifierMetadata(how_justification='Reads results.json with json.read_file and applies object_equals over the 4 graded keys with the key set closed; numeric keys compare within an absolute tolerance and a failure names the exact key.', why_justification='The four headline figures, recomputed from the delivered sheet; the contract document closes the key set.', tag='core', weight=None), source=Source(type='file', file=FileCommand(type='json', command='read_file', arguments={'path': 'results.json'}), response=None), assertion=Assertion(type='deterministic', expected={'keys': {'awarded_shipment_count': {'value': 7, 'tolerance': None}, 'linehaul_total_usd': {'value': 1216.6, 'tolerance': 0.01}, 'accessorial_total_usd': {'value': 300.0, 'tolerance': None}, 'quote_total_usd': {'value': 1516.6, 'tolerance': 0.01}}, 'closed': True}, deterministic=DeterministicConfig(path='$', comparison='object_equals', tolerance=None), rubric=None)), VerifierDefinition(name='results_exists', metadata=VerifierMetadata(how_justification='Checks results.json is present as a file in the workspace.', why_justification='Derived figures delivered.', tag='core', weight=None), source=Source(type='file', file=FileCommand(type='filesystem', command='check_path_exists', arguments={'path': 'results.json'}), response=None), assertion=Assertion(type='deterministic', expected=True, deterministic=DeterministicConfig(path='$.is_file', comparison='equals', tolerance=None), rubric=None))]::ids_['workbook_exists', 'workbook_table_trap_s04', 'workbook_table', 'workbook_table_single_table', 'results_figures', 'results_exists']"
+                ],
+                "trace": "definition = VerifierDefinition(name='results_exists', metadata=VerifierMetadata(how_justification='Checks results.json is present ... expected=True, deterministic=DeterministicConfig(path='$.is_file', comparison='equals', tolerance=None), rubric=None))\n\n    @pytest.mark.parametrize(\n        \"definition\",\n        SPEC.verifiers,\n        ids=[definition.name for definition in SPEC.verifiers],\n    )\n    def test_deliverable(definition):\n        outcome = verify_definition(\n            definition,\n            REGISTRY,\n            WEIGHTS[definition.name],\n            config=SPEC.config,\n            completion_fn=None,\n        )[\"result\"]\n        detail = outcome.get(\"error\") or outcome.get(\"reason\") or \"assertion failed\"\n>       assert outcome[\"success\"], f\"{definition.name}: {detail}\"\nE       AssertionError: results_exists: assertion failed\nE       assert False\n\n/tests/test_outputs.py:144: AssertionError",
+                "message": "The test failed in the call phase due to an assertion error"
+            },
+            {
+                "name": "test_outputs.py::test_incomplete_output",
+                "status": "skipped",
+                "duration": 0.0019886659999883705,
+                "start": 1790072348.3206124,
+                "stop": 1790072348.3236768,
+                "file_path": "test_outputs.py",
+                "tags": [
+                    "parametrize::path::['quote_selection.xlsx', 'results.json']"
+                ],
+                "trace": "('/tests/test_outputs.py', 153, 'Skipped: results.json not present in this workspace')"
+            },
+            {
+                "name": "test_outputs.py::test_negative_corrupted_value",
+                "status": "skipped",
+                "duration": 0.001695395000069766,
+                "start": 1790072348.3270147,
+                "stop": 1790072348.3296926,
+                "retries": 3,
+                "file_path": "test_outputs.py",
+                "tags": [
+                    "parametrize::key::['accessorial_total_usd', 'awarded_shipment_count', 'linehaul_total_usd', 'quote_total_usd']"
+                ],
+                "trace": "('/tests/test_outputs.py', 168, 'Skipped: no results.json in this workspace')"
+            },
+            {
+                "name": "test_outputs.py::test_adversarial_extra_key",
+                "status": "skipped",
+                "duration": 0.0017132900001115559,
+                "start": 1790072348.3393989,
+                "stop": 1790072348.341766,
+                "retries": 0,
+                "file_path": "test_outputs.py",
+                "trace": "('/tests/test_outputs.py', 197, 'Skipped: no results.json in this workspace')"
+            }
+        ]
+    }
+}

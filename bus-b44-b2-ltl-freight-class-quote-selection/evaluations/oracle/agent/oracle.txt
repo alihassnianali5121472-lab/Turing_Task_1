@@ -1,0 +1,5 @@
+installed gold deliverables into /app:
+input
+quote_selection.xlsx
+results.json
+oracle: wrote /logs/agent/trajectory.json (11 steps)
