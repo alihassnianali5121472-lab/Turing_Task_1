@@ -12,9 +12,11 @@ dollars.
   by, the consignee, the bill's status in the TMS and the class the shipper wrote on the bill.
 - `handling_units.csv` — the handling units (pallets, skids, crates, drums) on each bill, as
   keyed into the TMS: one row per line per revision of the bill. A line covers `pieces`
-  identical units; `dimensions_in` gives one piece as length x width x height, or as diameter
-  and height for a drum; `weight_lb` is the whole line's weight; `handling_note` is the
-  shipper's free-text note on the line and applies to every piece on it.
+  identical units; `dimensions_in` gives one piece as the shipper measured it, as length x width
+  x height, or as diameter and height for a drum; `weight_lb` is the whole line's weight;
+  `handling_note` is the shipper's free-text note on the line and applies to every piece on it.
+  Most shippers measure the loaded pallet or skid; a few measure only the goods and note what
+  they ride on.
 - `consignees.csv` — each consignee's delivery zone and receiving set-up.
 - `classification_items.md` — the classification items our shippers bill under.
 - `density_classes.csv` — the density scale.
@@ -30,7 +32,9 @@ A shipment is one bill of lading (`shipment_id`). Only bills whose `status` is `
 quoted; a cancelled bill is not quoted and does not go on the quote sheet.
 
 The TMS keeps every revision of a bill. The freight on a bill is the handling units on its
-highest `bol_revision`. `unit_id` is the label on the physical freight a line describes.
+highest `bol_revision`. `unit_id` is the label on the physical freight a line describes; the
+export sometimes repeats a line, and a label repeated on the same revision is the same freight,
+counted once.
 
 `bol_class` is the class the shipper declared on the bill; the class a shipment takes is the
 one section 3 gives.
@@ -44,10 +48,10 @@ the same way every time:
   floor — the smallest rectangular box that takes in everything that ships with it.
 - Every dimension is taken to the next whole inch; a fraction of an inch counts as a full inch.
 - The space above a piece that other freight may not be loaded onto — whether the note says it
-  must not be stacked on, or that it may only ride on top of the load — cannot be used for
-  anything else, so that piece is measured to the trailer roof: its height counts as 96 inches,
-  the interior height of the trailers our carriers run. The handling note says whether this is
-  so, in whatever words the shipper used.
+  must not be stacked on (do not stack), or that it may only ride on top of the load — cannot be
+  used for anything else, so that piece is measured to the trailer roof: its height counts as 96
+  inches, the interior height of the trailers our carriers run. The handling note says whether
+  this is so, in whatever words the shipper used.
 
 A piece's cube is length × width × height ÷ 1728, in cubic feet. A shipment's weight and cube
 are the totals over all the freight on the bill, and its density is its weight divided by its

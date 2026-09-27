@@ -88,10 +88,10 @@ CASES = [
     {"ship": ("BOL-41318", "2026-10-13", "2026-10-20", "CN-122", "100"),
      "units": [(1, "PU-88760", "82240", "PALLET", "40 x 30 x 48", 2, "620",
                 "cartons on a 48 x 40 pallet with 6 in deck - top load only")]},
-    # freight overhanging its skid
+    # goods longer than the skid they ride on
     {"ship": ("BOL-40943", "2026-10-09", "2026-10-16", "CN-185", "70"),
-     "units": [(1, "SK-2244", "110550", "SKID", "96 x 24 x 18", 1, "560",
-                "uprights overhang skid 9 in at one end")]},
+     "units": [(1, "SK-2244", "110550", "SKID", "105 x 22 x 18", 1, "560",
+                "steel uprights on a 96 x 24 skid with 4 in deck")]},
     # drums, one of them may not be stacked on
     {"ship": ("BOL-41342", "2026-10-14", "2026-10-21", "CN-141", "70"),
      "units": [(1, "DR-3420", "48620", "DRUM", "23 dia x 35 h", 2, "708", ""),

@@ -269,7 +269,7 @@ WRONG_READINGS = {
     "tie_routing": "equal totals broken by routing-guide order before delivery date",
     "no_pieces": "a line's cube taken for one piece although it covers several",
     "carton_dims": "cartons on a larger pallet cubed on the carton dimensions alone",
-    "no_overhang": "freight overhanging its skid cubed on the skid length",
+    "pallet_replaces": "the pallet or skid footprint used in place of the goods' own where the goods are larger",
     "sheet_strict": "a sheet effective on the pickup date treated as not yet in force",
 }
 
@@ -327,13 +327,13 @@ def overall_dims(u, wrong):
         return ("drum", d, d, h)
     l, w, h = (Fraction(x.strip()) for x in txt.split("x"))
     note = u["handling_note"].lower()
-    m = re.search(r"on a (\d+) x (\d+) pallet with (\d+) in deck", note)
+    m = re.search(r"on a (\d+) x (\d+) (?:pallet|skid) with (\d+) in deck", note)
     if m and "carton_dims" not in wrong:
         pl, pw, deck = (Fraction(m.group(k)) for k in (1, 2, 3))
-        l, w, h = max(l, pl), max(w, pw), h + deck
-    m = re.search(r"overhang \w+ (\d+) in at (one end|each end)", note)
-    if m and "no_overhang" not in wrong:
-        l += Fraction(m.group(1)) * (2 if m.group(2) == "each end" else 1)
+        if "pallet_replaces" in wrong:
+            l, w, h = pl, pw, h + deck
+        else:
+            l, w, h = max(l, pl), max(w, pw), h + deck
     return ("box", l, w, h)
 
 
